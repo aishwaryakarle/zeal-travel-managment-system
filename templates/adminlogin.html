@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+}
+
+.login-container {
+  background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-group {
+  margin: 10px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+  background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+   .admin-icon img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+    </style>
+</head>
+<body>
+  <div class="login-container">
+      <div class="admin-icon">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQahQRLTvito1E0h-VxZfjsUpxjB2AV8-KVRFQDOe9Mwu_xYUcpUTghIWI99Jr66O3_tIY&usqp=CAU" alt="Admin Icon">
+        </div>
+    <h1>Admin Login</h1>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit"><a href="/admin">Login</a></button>
+    </form>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+  const loginForm = document.getElementById('loginForm');
+
+  loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = loginForm.username.value;
+    const password = loginForm.password.value;
+
+    // Replace the following lines with actual username and password validation
+    const validUsername = 'admin';
+    const validPassword = 'password';
+
+    if (username === validUsername && password === validPassword) {
+      alert('Login successful!');
+      // Redirect to admin dashboard or perform other actions
+    } else {
+      alert('Invalid username or password. Please try again.');
+    }
+
+    // Reset form after validation (optional)
+    loginForm.reset();
+  });
+});
+
+  </script>
+</body>
+</html>

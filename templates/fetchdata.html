@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>student information</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container" >
+  <h2>STUDENT INFORMATION</h2>
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+
+          <th>firstname</th>
+          <th>Lastname</th>
+          <th>Department</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Password</th>
+          <th>Confirm Password</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% set num=x %}
+    {% for i in range(0,num) %}
+      <tr>
+        <td>{{stud[i][1]}}</td>
+        <td>{{stud[i][2]}}</td>
+        <td>{{stud[i][3]}}</td>
+        <td>{{stud[i][4]}}</td>
+        <td>{{stud[i][5]}}</td>
+         <td>{{stud[i][6]}}</td>
+         <td>{{stud[i][7]}}</td>
+         <td>{{stud[i][8]}}</td>
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Route Table with CRUD Operations</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Bus Route Schedule</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="busForm" method="post">
+                    <div class="form-group">
+                        <label for="busNumber">Bus Number:</label>
+                        <input type="text" class="form-control" id="busNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="route">Route:</label>
+                        <input type="text" class="form-control" id="route" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="departureTime">Departure Time:</label>
+                        <input type="text" class="form-control" id="departureTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="arrivalTime">Arrival Time:</label>
+                        <input type="text" class="form-control" id="arrivalTime" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Route</button>
+                    <button type="button" id="updateBtn" class="btn btn-success" style="display: none;">Update Route</button>
+                    <button type="button" id="cancelBtn" class="btn btn-secondary" style="display: none;">Cancel</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <table id="routeTable" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Bus Number</th>
+                            <th>Route</th>
+                            <th>Departure Time</th>
+                            <th>Arrival Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data rows will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<!-- ... (HTML structure from Step 1) ... -->
+
+<!-- Link to Bootstrap JS and jQuery (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Sample data for the bus route schedule
+    let busRouteData = [
+        { "id": 1, "busNumber": "101", "route": "narhe to nanded city", "departureTime": "07:00 AM", "arrivalTime": "08:00 AM" },
+    { "id": 2, "busNumber": "202", "route": "narhe to kothrude", "departureTime": "07:00 AM", "arrivalTime": "08:30 AM" },
+    { "id": 3, "busNumber": "303", "route": "narhe to warje", "departureTime": "07:20 PM", "arrivalTime": "08:30 PM" }
+        // Add more data here
+    ];
+
+    // Function to populate the table with data
+    function populateTable() {
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = '';
+
+        busRouteData.forEach((route) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${route.busNumber}</td>
+                <td>${route.route}</td>
+                <td>${route.departureTime}</td>
+                <td>${route.arrivalTime}</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-info" onclick="editRoute(${route.id})">Edit</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="deleteRoute(${route.id})">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // Function to add a new route
+    function addRoute(event) {
+        event.preventDefault();
+
+        const busNumber = document.getElementById('busNumber').value;
+        const route = document.getElementById('route').value;
+        const departureTime = document.getElementById('departureTime').value;
+        const arrivalTime = document.getElementById('arrivalTime').value;
+
+        // Generate a new unique ID (you can use a more robust method in a real application)
+        const id = Date.now();
+
+        const newRoute = { id, busNumber, route, departureTime, arrivalTime };
+        busRouteData.push(newRoute);
+        populateTable();
+        clearForm();
+    }
+
+    // Function to edit a route
+    function editRoute(id) {
+        const route = busRouteData.find((item) => item.id === id);
+
+        if (route) {
+            document.getElementById('busNumber').value = route.busNumber;
+            document.getElementById('route').value = route.route;
+            document.getElementById('departureTime').value = route.departureTime;
+            document.getElementById('arrivalTime').value = route.arrivalTime;
+
+            document.getElementById('busForm').addEventListener('submit', updateRoute);
+            document.getElementById('updateBtn').style.display = 'inline';
+            document.getElementById('cancelBtn').style.display = 'inline';
+            document.getElementById('updateBtn').setAttribute('data-id', route.id);
+        }
+    }
+
+    // Function to update a route
+    function updateRoute(event) {
+        event.preventDefault();
+
+        const id = parseInt(document.getElementById('updateBtn').getAttribute('data-id'), 10);
+        const busNumber = document.getElementById('busNumber').value;
+        const route = document.getElementById('route').value;
+        const departureTime = document.getElementById('departureTime').value;
+        const arrivalTime = document.getElementById('arrivalTime').value;
+
+        const updatedRoute = { id, busNumber, route, departureTime, arrivalTime };
+        const index = busRouteData.findIndex((item) => item.id === id);
+
+        if (index !== -1) {
+            busRouteData[index] = updatedRoute;
+            populateTable();
+            clearForm();
+        }
+    }
+
+    // Function to delete a route
+    function deleteRoute(id) {
+        const index = busRouteData.findIndex((item) => item.id === id);
+
+        if (index !== -1) {
+            busRouteData.splice(index, 1);
+            populateTable();
+        }
+    }
+
+    // Function to clear the form fields
+    function clearForm() {
+        document.getElementById('busForm').reset();
+        document.getElementById('busForm').removeEventListener('submit', updateRoute);
+        document.getElementById('updateBtn').style.display = 'none';
+        document.getElementById('cancelBtn').style.display = 'none';
+    }
+
+    // Event listener for adding a new route
+    document.getElementById('busForm').addEventListener('submit', addRoute);
+    document.getElementById('cancelBtn').addEventListener('click', clearForm);
+
+    // Call the function to populate the table on page load
+    populateTable();
+</script>
+
+</body>
+</html>

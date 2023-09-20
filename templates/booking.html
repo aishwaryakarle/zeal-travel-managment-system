@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student College Bus Booking Subscription</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+
+.body {
+      padding-top: 70px;
+    }
+
+    .navbar {
+      background-color: blueviolet;
+      color: #fff;
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+      color: #fff;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #007bff;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 100px;
+    }
+
+    .container {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-family: 'Times New Roman';
+    }
+
+    h2 {
+      text-align: center;
+      font-family: 'Times New Roman';
+      font: bold;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    .payment-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .payment-label {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .payment-input {
+      flex: 2;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 5px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: blueviolet;
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .receipt-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .receipt-details p {
+      margin: 5px 0;
+    }
+
+    .receipt-header {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: underline;
+    }
+
+    .receipt-button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="#">Zeal Travel System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Route</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Bus</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">LogOut</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Add your content below the navbar -->
+
+
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+  <div class="container">
+    <h2>Student College Bus Booking Subscription</h2>
+    <form id="subscriptionForm">
+      <label for="name">Student Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter student name" required>
+
+      <label for="dept">Department Name</label>
+      <input type="text" id="dept" name="dept" placeholder="Enter department name" required>
+
+      <label for="busno">Bus No</label>
+      <input type="number" id="busno" name="busno" placeholder="Enter Bus Number" required>
+
+      <label for="college">College</label>
+      <input type="text" id="college" name="college" placeholder="Enter college name" required>
+
+      <label for="semester">Semester</label>
+      <select id="semester" name="semester" required>
+        <option value="">Select semester</option>
+        <option value="1">Semester 1</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 3</option>
+        <!-- Add more options as needed -->
+      </select>
+
+      <div class="payment-container">
+        <span class="payment-label">Payment Method</span>
+        <div class="payment-input">
+          <label>
+            <input type="radio" name="payment" value="credit" required> Credit Card
+          </label>
+          <label>
+            <input type="radio" name="payment" value="debit" required> Debit Card
+          </label>
+          <label>
+            <input type="radio" name="payment" value="cash" required> Cash
+          </label>
+        </div>
+      </div>
+
+      <div id="cardDetails">
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" required>
+        <span id="cardNumberError" class="error-message"></span>
+
+        <label for="cardName">Cardholder Name</label>
+        <input type="text" id="cardName" name="cardName" placeholder="Enter cardholder name" required>
+
+        <label for="expiryDate">Expiry Date</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+        <span id="expiryDateError" class="error-message"></span>
+
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+        <span id="cvvError" class="error-message"></span>
+      </div>
+
+      <label for="amount">Payment Amount (Rupees)</label>
+      <input type="number" id="amount" name="amount" placeholder="Enter payment amount" required>
+      <span id="amountError" class="error-message"></span>
+
+      <button type="submit">Subscribe</button>
+    </form>
+
+    <div class="receipt-container" id="receiptContainer">
+      <div class="receipt-details">
+        <p class="receipt-header">Payment Receipt</p>
+        <p><strong>Student Name:</strong> <span id="receiptName"></span></p>
+        <p><strong>Department Name:</strong> <span id="receiptdept"></span></p>
+        <p><strong>Bus Number:</strong> <span id="receiptbusno"></span></p>
+        <p><strong>College:</strong> <span id="receiptCollege"></span></p>
+        <p><strong>Semester:</strong> <span id="receiptSemester"></span></p>
+        <p><strong>Payment Method:</strong> <span id="receiptPaymentMethod"></span></p>
+        <p><strong>Card Number:</strong> <span id="receiptCardNumber"></span></p>
+        <p><strong>Cardholder Name:</strong> <span id="receiptCardHolder"></span></p>
+        <p><strong>Expiry Date:</strong> <span id="receiptExpiryDate"></span></p>
+        <p><strong>CVV:</strong> <span id="receiptCVV"></span></p>
+        <p><strong>Amount:</strong> <span id="receiptAmount"></span> Rupees</p>
+      </div>
+      <button class="receipt-button" onclick="printReceipt()">Print Receipt</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('subscriptionForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      var name = document.getElementById('name').value;
+      var dept = document.getElementById('dept').value;
+      var busno = document.getElementById('busno').value;
+      var college = document.getElementById('college').value;
+      var semester = document.getElementById('semester').value;
+      var payment = document.querySelector('input[name="payment"]:checked');
+      var amount = document.getElementById('amount').value;
+
+      var cardNumber = document.getElementById('cardNumber').value;
+      var cardName = document.getElementById('cardName').value;
+      var expiryDate = document.getElementById('expiryDate').value;
+      var cvv = document.getElementById('cvv').value;
+
+      var cardNumberError = document.getElementById('cardNumberError');
+      var expiryDateError = document.getElementById('expiryDateError');
+      var cvvError = document.getElementById('cvvError');
+      var amountError = document.getElementById('amountError');
+
+      cardNumberError.textContent = '';
+      expiryDateError.textContent = '';
+      cvvError.textContent = '';
+      amountError.textContent = '';
+
+      if (payment && payment.value === 'credit' || payment.value === 'debit') {
+        if (!validateCardNumber(cardNumber)) {
+          cardNumberError.textContent = 'Invalid card number';
+          return;
+        }
+        if (!validateExpiryDate(expiryDate)) {
+          expiryDateError.textContent = 'Invalid expiry date';
+          return;
+        }
+        if (!validateCVV(cvv)) {
+          cvvError.textContent = 'Invalid CVV';
+          return;
+        }
+      }
+
+      if (!validateAmount(amount)) {
+        amountError.textContent = 'Invalid payment amount';
+        return;
+      }
+
+      // Payment successful, show receipt
+      document.getElementById('receiptName').textContent = name;
+      document.getElementById('receiptdept').textContent = dept;
+      document.getElementById('receiptbusno').textContent = busno;
+      document.getElementById('receiptCollege').textContent = college;
+      document.getElementById('receiptSemester').textContent = 'Semester ' + semester;
+      document.getElementById('receiptPaymentMethod').textContent = payment.value === 'cash' ? 'Cash' : 'Card';
+      document.getElementById('receiptCardNumber').textContent = payment.value === 'cash' ? 'N/A' : maskCardNumber(cardNumber);
+      document.getElementById('receiptCardHolder').textContent = payment.value === 'cash' ? 'N/A' : cardName;
+      document.getElementById('receiptExpiryDate').textContent = payment.value === 'cash' ? 'N/A' : expiryDate;
+      document.getElementById('receiptCVV').textContent = payment.value === 'cash' ? 'N/A' : '***';
+      document.getElementById('receiptAmount').textContent = amount;
+
+      document.getElementById('receiptContainer').style.display = 'block';
+    });
+
+    function validateCardNumber(cardNumber) {
+      return /^\d{16}$/.test(cardNumber);
+    }
+
+    function validateExpiryDate(expiryDate) {
+      return /^\d{2}\/\d{2}$/.test(expiryDate);
+    }
+
+    function validateCVV(cvv) {
+      return /^\d{3}$/.test(cvv);
+    }
+
+    function validateAmount(amount) {
+      return /^\d+$/.test(amount);
+    }
+
+    function maskCardNumber(cardNumber) {
+      return '**** **** **** ' + cardNumber.substr(-4);
+    }
+
+    function printReceipt() {
+      var receiptContainer = document.getElementById('receiptContainer').innerHTML;
+      var originalContent = document.body.innerHTML;
+
+      document.body.innerHTML = receiptContainer;
+      window.print();
+      document.body.innerHTML = originalContent;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="stylesheet"
+		href="static/admin.css">
+	<link rel="stylesheet"
+		href="static/adminres.css">
+        <style>
+            .display_table{
+                min-height: 300px;
+                max-width: 1200px;
+                margin: 70px auto 0px auto;
+                background-color: #ffffff;
+                border-radius: 30px;
+                box-shadow: 3px 3px 10px rgb(188, 188, 188);
+                padding: 0px 20px 20px 20px;
+            }
+            table {
+
+                border-collapse: collapse;
+                width: 900px;
+margin-top: 15px;
+        }
+
+        table, th, td {
+            border-style: none;
+            border-width: 3px;
+            padding: 5px;
+            text-align: justify;
+            font-style: 'Times New Roman';
+            margin-top: 20px;
+        }
+
+       .button{
+          background-color:#5500cb;
+          width:70px;
+          height: 35px;
+          border-radius: 8px;
+          color:white;
+        }
+        .button:hover{
+          background-color: blueviolet;
+        }
+       .formdata{
+        text-align: center;
+        position: relative;
+        left:10%;
+       }
+        </style>
+    </head>
+
+    <body>
+
+
+
+      <header>
+
+        <div class="logosec">
+          <div class="logo">Admin Dashboard</div>
+          <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+            class="icn menuicn"
+            id="menuicn"
+            alt="menu-icon">
+        </div>
+
+        <div class="searchbar">
+          <input type="text"
+            placeholder="Search">
+          <div class="searchbtn">
+          <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+              class="icn srchicn"
+              alt="search-icon">
+          </div>
+        </div>
+
+        <div class="message">
+          <div class="circle"></div>
+          <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png"
+            class="icn"
+            alt="">
+          <div class="dp">
+          <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+              class="dpicn"
+              alt="dp">
+          </div>
+        </div>
+
+      </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="main-container">
+        <div class="navcontainer">
+          <nav class="nav">
+            <div class="nav-upper-options">
+              <div class="nav-option option1">
+                <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210182148/Untitled-design-(29).png"
+                  class="nav-img"
+                  alt="dashboard">
+                <h3> Dashboard</h3>
+              </div>
+
+              <div class="option2 nav-option">
+                <img src="static/route.png"
+                  class="nav-img"
+                  alt="articles">
+                  <h3><a href="/admin_route">Route</a></h3>
+              </div>
+
+              <div class="nav-option option3">
+                <img src="static/students.jpg"
+                  class="nav-img"
+                  alt="report">
+                  <h3><a href="/fetchdata"> Student</a></h3>
+              </div>
+
+
+              <div class="nav-option logout">
+                <img src=
+    "https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+                  class="nav-img"
+                  alt="logout">
+                <h3>Logout</h3>
+              </div>
+
+            </div>
+          </nav>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="employpage">
+            <div class="formdata">
+
+
+            <form onsubmit="event.preventDefault();" autocomplete="off" id="dataForm">
+
+                <br><label> Bus Name: </label>
+                <input type="text" class="empname" value=""  placeholder="Bus Name" id="bn">
+
+                <label>Bus Number: </label>
+                <input type="text" class="designation" value=""  placeholder="Bus Number" id="busn"></br>
+
+                <div style="width:100%" >
+                <br> <input type="submit"  value="SUBMIT"  class="button"></br>
+
+                </div>
+
+              </form>
+
+            </div>
+            <div class="report-container">
+              <div class="report-header">
+                <h1 class="recent-Articles">Bus Information</h1>
+                <button class="view">View All</button>
+              </div>
+
+            <div class="display_table">
+                        <table class="list" id="dataTable">
+                              <thead>
+                                <tr>
+                                <th id="idCell">id</th>
+                                <th>Bus Name</th>
+                                <th>Bus Number</th>
+                                <th>Edit</th>
+                            </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>
+                          </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+          <script>
+            let b_id=1;
+
+            let tableData = [];
+
+      // Get references to the form and table
+      const form = document.getElementById("dataForm");
+      const table = document.getElementById("dataTable").getElementsByTagName("tbody")[0];
+
+      // Add an event listener to the form submit event
+      form.addEventListener("submit", function(event) {
+          event.preventDefault(); // Prevent form submission
+
+          // Get the input values
+             const bus=document.getElementById("bn").value;
+             const busnum=document.getElementById("busn").value;
+          // Perform validation (you can customize the validation logic)
+          if (bus.trim() === "" || busnum.trim() === "" || isNaN(busnum)) {
+              alert("Please enter valid data.");
+              return;
+          }
+
+          // Create a new data object
+          const newData = {
+              id:parseInt(b_id),
+              name: bus,
+              busn: busnum
+          };
+
+          // Add the new data object to the array
+          tableData.push(newData);
+
+          // Refresh the table
+          refreshTable();
+      });
+
+      // Function to refresh the table
+      function refreshTable() {
+          // Clear the table body
+          table.innerHTML = "";
+
+          // Loop through the table data and populate the table rows
+          for (let i = 0; i < tableData.length; i++) {
+              const row = table.insertRow(i);
+
+              const idCell = row.insertCell(0);
+              idCell.innerHTML = tableData[i].id;
+
+              const nameCell = row.insertCell(1);
+              nameCell.innerHTML = tableData[i].name;
+
+              const ageCell = row.insertCell(2);
+              ageCell.innerHTML = tableData[i].busn;
+
+              const actionsCell = row.insertCell(3);
+              actionsCell.innerHTML = '<a class="edt" onClick="onEdit(this)">Edit</a>  / <a class="dlt" onClick="onDelete(this)">Delete</a>';
+
+
+
+            // Increment the ID value
+           parseInt(b_id++);
+          }
+      }
+
+            function onEdit(y){
+              console.log(y);
+
+              //var selecteventbtn = document.querySelector("a.edt");
+                selectedRow = y.parentElement.parentElement;
+                //document.querySelector(".empid").value = selectedRow.cells[0].innerHTML;
+                document.querySelector(".empname").value = selectedRow.cells[2].innerHTML;
+                document.querySelector(".designation").value = selectedRow.cells[3].innerHTML;
+            }
+
+
+
+
+            function onDelete() {
+                if (confirm('Are you sure to delete this record ?')) {
+                    var selectdelete = document.querySelector("a.dlt");
+                    selectdelete = selectdelete.parentElement.parentElement.remove(0);
+                }
+            }
+
+
+            </script>
+    </body>
+</html>

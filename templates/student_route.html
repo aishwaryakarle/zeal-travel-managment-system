@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Route Table with Admin Interface</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Bus Route Schedule</h2>
+        <table id="routeTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Bus Number</th>
+                    <th>Route</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for route in bus_route_data %}
+                <tr data-id="{{ route.id }}">
+                    <td>{{ route.busNumber }}</td>
+                    <td>{{ route.route }}</td>
+                    <td>{{ route.departureTime }}</td>
+                    <td>{{ route.arrivalTime }}</td>
+                    <td><button><a href="/card">Select</a></button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for Admin Interface -->
+    <div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adminModalLabel">Update Bus Route Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="adminForm">
+                        <input type="hidden" id="routeId">
+                        <div class="form-group">
+                            <label for="busNumber">Bus Number:</label>
+                            <input type="text" class="form-control" id="busNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="route">Route:</label>
+                            <input type="text" class="form-control" id="route" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="departureTime">Departure Time:</label>
+                            <input type="text" class="form-control" id="departureTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="arrivalTime">Arrival Time:</label>
+                            <input type="text" class="form-control" id="arrivalTime" required>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="saveBtn" class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to Bootstrap JS and jQuery (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to open the admin modal for updating route information
+        function openAdminModal(route) {
+            document.getElementById('routeId').value = route.dataset.id;
+            document.getElementById('busNumber').value = route.cells[0].textContent;
+            document.getElementById('route').value = route.cells[1].textContent;
+            document.getElementById('departureTime').value = route.cells[2].textContent;
+            document.getElementById('arrivalTime').value = route.cells[3].textContent;
+
+            $('#adminModal').modal('show');
+        }
+
+        // Function to update bus route information
+        function updateRoute() {
+            const routeId = parseInt(document.getElementById('routeId').value, 10);
+            const busNumber = document.getElementById('busNumber').value;
+            const route = document.getElementById('route').value;
+            const departureTime = document.getElementById('departureTime').value;
+            const arrivalTime = document.getElementById('arrivalTime').value;
+
+            const data = {
+                busNumber: busNumber,
+                route: route,
+                departureTime: departureTime,
+                arrivalTime: arrivalTime
+            };
+
+            fetch(`/api/routes/${routeId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(updatedRoute => {
+                const tr = document.querySelector(`tr[data-id="${updatedRoute.id}"]`);
+                tr.cells[0].textContent = updatedRoute.busNumber;
+                tr.cells[1].textContent = updatedRoute.route;
+                tr.cells[2].textContent = updatedRoute.departureTime;
+                tr.cells[3].textContent = updatedRoute.arrivalTime;
+                $('#adminModal').modal('hide');
+            })
+            .catch(error => console.error('Error updating route:', error));
+        }
+
+        // Event listener for saving changes in the admin modal
+        document.getElementById('saveBtn').addEventListener('click', updateRoute);
+    </script>
+</body>
+</html>
